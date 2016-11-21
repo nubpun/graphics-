@@ -60,6 +60,27 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
 {
 }
+void light_on()
+{
+
+
+
+
+	float pos[4]= {0,0, 2, -1};
+	float dir[3]= {0,0,1};
+	glLightfv(GL_LIGHT0, GL_POSITION, pos);
+	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
+
+	glEnable(GL_LIGHTING);  //Разрешаем освещение
+	glEnable(GL_LIGHT0);  //Включили освещение 0
+
+
+	float p2[4]= {0,0,0, 0};
+	glLightfv(GL_LIGHT1,GL_POSITION, p2);  //Установка позиции освещения
+	glEnable(GL_LIGHT1);  //Включили освещение 0
+
+
+}
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
@@ -71,16 +92,21 @@ wglMakeCurrent(hDC, ghRC);  //Делаем его текущим
 glClearColor(1, 1, 1, 0.0); //Цвет экрана при очищении
 glEnable(GL_COLOR_MATERIAL);  //Разрешаем задавать цвет объектам
 glEnable(GL_DEPTH_TEST);  //Тест глубины для объемности изображения
-glEnable(GL_LIGHTING);  //Разрешаем освещение
-glEnable(GL_LIGHT0);  //Включили освещение 0
-	glEnable(GL_ALPHA_TEST);
-	glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-float p[4]={100,100,100,5};
-glLightfv(GL_LIGHT0,GL_POSITION,p);  //Установка позиции освещения
 
+glEnable(GL_ALPHA_TEST);
+glEnable(GL_BLEND);
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+light_on();
 }
 //---------------------------------------------------------------------------
 
+void light_off()
+{
+	glDisable(GL_LIGHT0); // отключаем освещение
+	glDisable(GL_LIGHT1); // отключаем освещение
+}
 void __fastcall TForm1::FormDestroy(TObject *Sender)
 {
 	if(ghRC)
@@ -100,7 +126,7 @@ using namespace std;
 void DrawFish()
 {
 	glBegin(GL_QUADS);                      // Рисуем куб
-		glColor3f(1.0f,1.0f,1.0f);              // Зеленый
+		glColor3f(0.0f,1.0f,0.0f);              // Зеленый
 		glVertex3f( 0.5f, 0.5f,-0.5f);          // Право верх квадрата (Верх)
 		glVertex3f(-0.5f, 0.5f,-0.5f);          // Лево верх
 		glVertex3f(-0.5f, 0.5f, 0.5f);          // Лево низ
@@ -140,53 +166,17 @@ void DrawFish()
 
 void DrawAquarium()
 {
-	glColor4f(0.0f, 0.5f,1.0f, 0.5);
+	glColor4f(0.0f, 0.0f,1.0f, 0.1);
 	GLUquadricObj* m_qObj;
 	m_qObj = gluNewQuadric();
-	gluSphere(m_qObj, 2.0f, 30, 30);
+	gluSphere(m_qObj, 2.0f, 500, 500);
 }
 
 
-void DrawAquarium2()
-{
-
-	glBegin(GL_QUADS);                      // Рисуем куб
-		glColor4f(0.0f, 0.0f,1.0f, 0.1);
-		glVertex3f( 1.0f, 1.0f,-1.0f);          // Право верх квадрата (Крышка верх.)
-        glVertex3f(-1.0f, 1.0f,-1.0f);          // Лево верх
-        glVertex3f(-1.0f, 1.0f, 1.0f);          // Лево низ
-		glVertex3f( 1.0f, 1.0f, 1.0f);          // Право низ
-
-		glColor4f(0.0f, 0.5f,1.0f, 0.5);
-        glVertex3f( 1.0f,-1.0f, 1.0f);          // Верх право квадрата (Низ)
-        glVertex3f(-1.0f,-1.0f, 1.0f);          // Верх лево
-        glVertex3f(-1.0f,-1.0f,-1.0f);          // Низ лево
-		glVertex3f( 1.0f,-1.0f,-1.0f);          // Низ право
-
-        glVertex3f( 1.0f, 1.0f, 1.0f);          // Верх право квадрата (Перед)
-        glVertex3f(-1.0f, 1.0f, 1.0f);          // Верх лево
-        glVertex3f(-1.0f,-1.0f, 1.0f);          // Низ лево
-		glVertex3f( 1.0f,-1.0f, 1.0f);          // Низ право
-
-        glVertex3f( 1.0f,-1.0f,-1.0f);          // Верх право квадрата (Зад)
-        glVertex3f(-1.0f,-1.0f,-1.0f);          // Верх лево
-        glVertex3f(-1.0f, 1.0f,-1.0f);          // Низ лево
-		glVertex3f( 1.0f, 1.0f,-1.0f);          // Низ право
-
-        glVertex3f(-1.0f, 1.0f, 1.0f);          // Верх право квадрата (Лево)
-        glVertex3f(-1.0f, 1.0f,-1.0f);          // Верх лево
-        glVertex3f(-1.0f,-1.0f,-1.0f);          // Низ лево
-		glVertex3f(-1.0f,-1.0f, 1.0f);          // Низ право
-
-        glVertex3f( 1.0f, 1.0f,-1.0f);          // Верх право квадрата (Право)
-        glVertex3f( 1.0f, 1.0f, 1.0f);          // Верх лево
-        glVertex3f( 1.0f,-1.0f, 1.0f);          // Низ лево
-        glVertex3f( 1.0f,-1.0f,-1.0f);          // Низ право
-	glEnd();
-}
 void TForm1::Draw()
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	light_on();
 	DrawFish();
 	DrawAquarium();
 	SwapBuffers(hDC);
@@ -222,7 +212,7 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
 {
 	switch(Key){
 		case(VK_RIGHT):{
-            cam.rotate(0, -1);
+			cam.rotate(0, -1);
             moveCamera();
             Draw();
 			break;
