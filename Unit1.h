@@ -8,9 +8,14 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 
+#include <vcl.h>
+#include <cmath>
+
 #include <ExtCtrls.hpp>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/glaux.h>
+
 #include "Camera.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
