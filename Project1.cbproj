@@ -69,17 +69,17 @@
         <PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;xmlrtl.bpi;vclie.bpi;inet.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;dbrtl.bpi;dsnap.bpi;vcldb.bpi;adortl.bpi;dbexpress.bpi;dbxcds.bpi;$(PackageImports)</PackageImports>
         <UsePackages>true</UsePackages>
         <ILINK_AppType>Windows</ILINK_AppType>
-        <BRCC_IncludePath>W:\4курс\Компьютерная графика\Lab2;$(BDS)\include;$(BDS)\include\vcl;$(BRCC_IncludePath)</BRCC_IncludePath>
+        <BRCC_IncludePath>$(BDS)\include;$(BDS)\include\vcl;$(BRCC_IncludePath)</BRCC_IncludePath>
         <DCC_ObjPath>W:\4курс\Компьютерная графика\Lab2;$(DCC_ObjPath)</DCC_ObjPath>
         <DCC_IncludePath>W:\4курс\Компьютерная графика\Lab2;C:\Users\mayorov-mp-3.PRIMA.000\Documents\Borland Studio Projects;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_IncludePath)</DCC_IncludePath>
         <ILINK_ObjectSearchPath>W:\4курс\Компьютерная графика\Lab2;$(ILINK_ObjectSearchPath)</ILINK_ObjectSearchPath>
         <DynamicRTL>true</DynamicRTL>
         <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
-        <BCC_IncludePath>W:\4курс\Компьютерная графика\Lab2;$(BDS)\include;$(BDS)\include\vcl;$(BCC_IncludePath)</BCC_IncludePath>
+        <BCC_IncludePath>$(BDS)\include;$(BDS)\include\vcl;E:\work\graphics;$(BCC_IncludePath)</BCC_IncludePath>
         <DCC_ResourcePath>W:\4курс\Компьютерная графика\Lab2;$(DCC_ResourcePath)</DCC_ResourcePath>
         <BCC_GenerateWindowsApp>true</BCC_GenerateWindowsApp>
         <DCC_UnitSearchPath>W:\4курс\Компьютерная графика\Lab2;C:\Users\mayorov-mp-3.PRIMA.000\Documents\Borland Studio Projects;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <ILINK_LibraryPath>W:\4курс\Компьютерная графика\Lab2;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>E:\work\graphics;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
@@ -115,6 +115,10 @@
         <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <BRCC_IncludePath>E:\work\graphics;$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <BCC_UserSuppliedOptions> -tWM -k</BCC_UserSuppliedOptions>
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
@@ -140,6 +144,9 @@
         <CppCompile Include="Camera.cpp">
             <DependentOn>Camera.h</DependentOn>
             <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="l3ds.cpp">
+            <BuildOrder>4</BuildOrder>
         </CppCompile>
         <CppCompile Include="Project1.cpp">
             <BuildOrder>-1</BuildOrder>
@@ -230,6 +237,10 @@
                 <Source>
                     <Source Name="MainSource">Project1.cpp</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k230.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp230.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Platforms>
                 <Platform value="Win32">True</Platform>

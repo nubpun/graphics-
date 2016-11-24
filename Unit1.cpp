@@ -12,8 +12,7 @@ Camera cam(5, 45, 45);
 BOOL TForm1::bSetupPixelFormat(HDC hDC)
 
 {
-
-  PIXELFORMATDESCRIPTOR pfd; //Создаем структуру
+	PIXELFORMATDESCRIPTOR pfd; //Создаем структуру
 
   int pixelformat;
 
@@ -62,24 +61,11 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 }
 void light_on()
 {
-
-
-
-
 	float pos[4]= {0,0, 2, -1};
 	float dir[3]= {0,0,1};
 	glLightfv(GL_LIGHT0, GL_POSITION, pos);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
-
-	glEnable(GL_LIGHTING);  //Разрешаем освещение
 	glEnable(GL_LIGHT0);  //Включили освещение 0
-
-
-	float p2[4]= {0,0,0, 0};
-	glLightfv(GL_LIGHT1,GL_POSITION, p2);  //Установка позиции освещения
-	glEnable(GL_LIGHT1);  //Включили освещение 0
-
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
@@ -96,8 +82,6 @@ glEnable(GL_DEPTH_TEST);  //Тест глубины для объемности изображения
 glEnable(GL_ALPHA_TEST);
 glEnable(GL_BLEND);
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
 light_on();
 }
 //---------------------------------------------------------------------------
@@ -105,7 +89,6 @@ light_on();
 void light_off()
 {
 	glDisable(GL_LIGHT0); // отключаем освещение
-	glDisable(GL_LIGHT1); // отключаем освещение
 }
 void __fastcall TForm1::FormDestroy(TObject *Sender)
 {
@@ -123,65 +106,96 @@ void __fastcall TForm1::FormDestroy(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 using namespace std;
-void DrawFish()
+void DrawFish(float x, float y, float z)
 {
-	glBegin(GL_QUADS);                      // Рисуем куб
-		glColor3f(0.0f,1.0f,0.0f);              // Зеленый
-		glVertex3f( 0.5f, 0.5f,-0.5f);          // Право верх квадрата (Верх)
-		glVertex3f(-0.5f, 0.5f,-0.5f);          // Лево верх
-		glVertex3f(-0.5f, 0.5f, 0.5f);          // Лево низ
-		glVertex3f( 0.5f, 0.5f, 0.5f);          // Право низ
-
-		glColor3f(1.0f,0.5f,0.0f);              // Оранжевый
-		glVertex3f( 0.5f,-0.5f, 0.5f);          // Верх право квадрата (Низ)
-		glVertex3f(-0.5f,-0.5f, 0.5f);          // Верх лево
-		glVertex3f(-0.5f,-0.5f,-0.5f);          // Низ лево
-		glVertex3f( 0.5f,-0.5f,-0.5f);          // Низ право
-
-        glColor3f(1.0f,0.0f,0.0f);              // Красный
-		glVertex3f( 0.5f, 0.5f, 0.5f);          // Верх право квадрата (Перед)
-		glVertex3f(-0.5f, 0.5f, 0.5f);          // Верх лево
-		glVertex3f(-0.5f,-0.5f, 0.5f);          // Низ лево
-		glVertex3f( 0.5f,-0.5f, 0.5f);          // Низ право
-
-		glColor3f(1.0f,1.0f,0.0f);              // Желтый
-		glVertex3f( 0.5f,-0.5f,-0.5f);          // Верх право квадрата (Зад)
-		glVertex3f(-0.5f,-0.5f,-0.5f);          // Верх лево
-		glVertex3f(-0.5f, 0.5f,-0.5f);          // Низ лево
-		glVertex3f( 0.5f, 0.5f,-0.5f);          // Низ право
-
-		glColor3f(0.0f,0.0f,1.0f);              // Синий
-		glVertex3f(-0.5f, 0.5f, 0.5f);          // Верх право квадрата (Лево)
-		glVertex3f(-0.5f, 0.5f,-0.5f);          // Верх лево
-		glVertex3f(-0.5f,-0.5f,-0.5f);          // Низ лево
-		glVertex3f(-0.5f,-0.5f, 0.5f);          // Низ право
-
-		glColor3f(1.0f,0.0f,1.0f);              // Фиолетовый
-		glVertex3f( 0.5f, 0.5f,-0.5f);          // Верх право квадрата (Право)
-		glVertex3f( 0.5f, 0.5f, 0.5f);          // Верх лево
-		glVertex3f( 0.5f,-0.5f, 0.5f);          // Низ лево
-		glVertex3f( 0.5f,-0.5f,-0.5f);          // Низ право
+	float height = 0.6;
+	float weight = 0.5;
+	float length = 1;
+	float tail = 0.3;
+	float tailHeight = 0.01;
+	glColor3f(0.0f,1.0f,0.0f);              	//
+	glBegin(GL_TRIANGLES);                      // Рисуем перед лево верх рыбки.
+		glVertex3f(x, y, z + weight);           //
+		glVertex3f(x, y + height, z);           //
+		glVertex3f(x - length, y, z);           //
 	glEnd();
+	glColor3f(0.0f,1.0f,1.0f);
+
+	glBegin(GL_TRIANGLES);                      // Рисуем перед лево низ рыбки.
+		glVertex3f(x, y, z + weight);          //
+		glVertex3f(x, y - height, z);          //
+		glVertex3f(x - length, y, z);          //
+	glEnd();
+	glColor3f(1.0f,1.0f,0.5f);
+	glBegin(GL_TRIANGLES);                      // Рисуем заднею лево верх рыбки.
+		glVertex3f(x, y, z - weight);          //
+		glVertex3f(x, y + height, z);          //
+		glVertex3f(x - length, y, z);          //
+	glEnd();
+	glColor3f(1.0f,1.0f,0.0f);
+	glBegin(GL_TRIANGLES);                      // Рисуем заднею лево низ рыбки.
+		glVertex3f(x, y, z - weight);          //
+		glVertex3f(x, y - height, z);          //
+		glVertex3f(x - length, y, z);          //
+	glEnd();
+	//Правая часть
+	glColor3f(0.0f,1.0f,0.0f);
+	glBegin(GL_TRIANGLES);                      // Рисуем перед право верх рыбки.
+		glVertex3f(x, y, z + weight);          //
+		glVertex3f(x, y + height, z);          //
+		glVertex3f(x + length, y, z);          //
+	glEnd();
+	glColor3f(0.0f,1.0f,1.0f);
+
+	glBegin(GL_TRIANGLES);                      // Рисуем перед право низ рыбки.
+		glVertex3f(x, y, z + weight);          //
+		glVertex3f(x, y - height, z);          //
+		glVertex3f(x + length, y, z);          //
+	glEnd();
+	glColor3f(1.0f,1.0f,0.5f);
+	glBegin(GL_TRIANGLES);                      // Рисуем заднею правую верх рыбки.
+		glVertex3f(x, y, z - weight);          //
+		glVertex3f(x, y + height, z);          //
+		glVertex3f(x + length, y, z);          //
+	glEnd();
+    glColor3f(1.0f,1.0f,0.0f);
+	glBegin(GL_TRIANGLES);                      // Рисуем заднею лево низ рыбки.
+		glVertex3f(x, y, z - weight);          //
+		glVertex3f(x, y - height, z);          //
+		glVertex3f(x + length, y, z);          //
+	glEnd();
+	//Хвост
+	glBegin(GL_TRIANGLES);                      // Рисуем переднею.
+		glVertex3f(x + length, y, z);        //
+		glVertex3f(x + length + tail, y + tail, z + tailHeight);	//
+		glVertex3f(x + length + tail, y - tail, z + tailHeight);           //
+	glEnd();
+
+	glBegin(GL_TRIANGLES);                      // Рисуем заднею.
+		glVertex3f(x + length, y, z);        //
+		glVertex3f(x + length + tail, y + tail, z - tailHeight);	//
+		glVertex3f(x + length + tail, y - tail, z - tailHeight);           //
+	glEnd();
+
 }
 
 void DrawAquarium()
 {
-	glColor4f(0.0f, 0.0f,1.0f, 0.1);
+	glColor4f(0.0f, 0.0f,1.0f, 0.2);
 	GLUquadricObj* m_qObj;
 	m_qObj = gluNewQuadric();
-	gluSphere(m_qObj, 2.0f, 500, 500);
-}
+	float R = 2;
 
+	gluSphere(m_qObj, R, 500, 500);
+}
 
 void TForm1::Draw()
 {
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	light_on();
-	DrawFish();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	DrawFish(0,0,0);
 	DrawAquarium();
 	SwapBuffers(hDC);
 }
-
 
 
 
