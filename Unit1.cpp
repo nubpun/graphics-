@@ -7,8 +7,13 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm1 *Form1;
-Camera cam(5, 45, 45);
-
+Camera cam(10, 45, 45);
+float fishAlfa = 0;
+float fishAlfa2 = 0;
+float fishBeta = 0;
+float fishAngle[4]={0,30,-30,60};
+float fishTrans[4]={3,2.25,2.8,3.1};
+GLuint  texture[11];  // Массив для хранения текстур
 BOOL TForm1::bSetupPixelFormat(HDC hDC)
 
 {
@@ -83,6 +88,8 @@ glEnable(GL_ALPHA_TEST);
 glEnable(GL_BLEND);
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 light_on();
+glEnable(GL_TEXTURE_2D);    // Разрешение наложение текстуры
+LoadGLTextures();           // Вызов функции импорта текстур
 }
 //---------------------------------------------------------------------------
 
@@ -113,86 +120,108 @@ void DrawFish(float x, float y, float z)
 	float length = 1;
 	float tail = 0.3;
 	float tailHeight = 0.01;
-	glColor3f(0.0f,1.0f,0.0f);              	//
-	glBegin(GL_TRIANGLES);                      // Рисуем перед лево верх рыбки.
-		glVertex3f(x, y, z + weight);           //
-		glVertex3f(x, y + height, z);           //
-		glVertex3f(x - length, y, z);           //
-	glEnd();
-	glColor3f(0.0f,1.0f,1.0f);
 
+	glColor3f(1.0f,1.0f,1.0f);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);            	//
+	glBegin(GL_TRIANGLES);                      // Рисуем перед лево верх рыбки.
+		glTexCoord2f(0.0f, 0.0f); 	glVertex3f(x, y, z + weight);           //
+		glTexCoord2f(0.0f, 1.0f); 	glVertex3f(x, y + height, z);           //
+		glTexCoord2f(1.0f, 0.0f); 	glVertex3f(x - length, y, z);           //
+	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
 	glBegin(GL_TRIANGLES);                      // Рисуем перед лево низ рыбки.
-		glVertex3f(x, y, z + weight);          //
-		glVertex3f(x, y - height, z);          //
-		glVertex3f(x - length, y, z);          //
+	glTexCoord2f(0.0f, 0.0f);	glVertex3f(x, y, z + weight);          //
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(x, y - height, z);          //
+	glTexCoord2f(1.0f, 0.0f);	glVertex3f(x - length, y, z);          //
 	glEnd();
-	glColor3f(1.0f,1.0f,0.5f);
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
 	glBegin(GL_TRIANGLES);                      // Рисуем заднею лево верх рыбки.
-		glVertex3f(x, y, z - weight);          //
-		glVertex3f(x, y + height, z);          //
-		glVertex3f(x - length, y, z);          //
+	glTexCoord2f(0.0f, 0.0f);	glVertex3f(x, y, z - weight);          //
+	glTexCoord2f(0.0f, 1.0f);	glVertex3f(x, y + height, z);          //
+	glTexCoord2f(1.0f, 0.0f);	glVertex3f(x - length, y, z);          //
 	glEnd();
-	glColor3f(1.0f,1.0f,0.0f);
+		glBindTexture(GL_TEXTURE_2D, texture[3]);
 	glBegin(GL_TRIANGLES);                      // Рисуем заднею лево низ рыбки.
-		glVertex3f(x, y, z - weight);          //
-		glVertex3f(x, y - height, z);          //
-		glVertex3f(x - length, y, z);          //
+	 glTexCoord2f(0.0f, 0.0f);	glVertex3f(x, y, z - weight);          //
+	glTexCoord2f(0.0f, 1.0f);	glVertex3f(x, y - height, z);          //
+	glTexCoord2f(1.0f, 0.0f);	glVertex3f(x - length, y, z);          //
 	glEnd();
 	//Правая часть
-	glColor3f(0.0f,1.0f,0.0f);
+	glBindTexture(GL_TEXTURE_2D, texture[4]);
 	glBegin(GL_TRIANGLES);                      // Рисуем перед право верх рыбки.
-		glVertex3f(x, y, z + weight);          //
-		glVertex3f(x, y + height, z);          //
-		glVertex3f(x + length, y, z);          //
+	glTexCoord2f(0.0f, 0.0f);	glVertex3f(x, y, z + weight);          //
+	glTexCoord2f(0.0f, 1.0f);	glVertex3f(x, y + height, z);          //
+	glTexCoord2f(1.0f, 0.0f);	glVertex3f(x + length, y, z);          //
 	glEnd();
-	glColor3f(0.0f,1.0f,1.0f);
 
+	glBindTexture(GL_TEXTURE_2D, texture[5]);
 	glBegin(GL_TRIANGLES);                      // Рисуем перед право низ рыбки.
-		glVertex3f(x, y, z + weight);          //
-		glVertex3f(x, y - height, z);          //
-		glVertex3f(x + length, y, z);          //
+	 glTexCoord2f(0.0f, 0.0f);	glVertex3f(x, y, z + weight);          //
+	  glTexCoord2f(0.0f, 1.0f);	glVertex3f(x, y - height, z);          //
+	  glTexCoord2f(1.0f, 0.0f);	glVertex3f(x + length, y, z);          //
 	glEnd();
-	glColor3f(1.0f,1.0f,0.5f);
+	glBindTexture(GL_TEXTURE_2D, texture[6]);
 	glBegin(GL_TRIANGLES);                      // Рисуем заднею правую верх рыбки.
-		glVertex3f(x, y, z - weight);          //
-		glVertex3f(x, y + height, z);          //
-		glVertex3f(x + length, y, z);          //
+	  glTexCoord2f(0.0f, 0.0f);	glVertex3f(x, y, z - weight);          //
+	  glTexCoord2f(0.0f, 1.0f);	glVertex3f(x, y + height, z);          //
+	  glTexCoord2f(1.0f, 0.0f);	glVertex3f(x + length, y, z);          //
 	glEnd();
-    glColor3f(1.0f,1.0f,0.0f);
+	glBindTexture(GL_TEXTURE_2D, texture[7]);
 	glBegin(GL_TRIANGLES);                      // Рисуем заднею лево низ рыбки.
-		glVertex3f(x, y, z - weight);          //
-		glVertex3f(x, y - height, z);          //
-		glVertex3f(x + length, y, z);          //
+	   glTexCoord2f(0.0f, 0.0f);	glVertex3f(x, y, z - weight);          //
+	   glTexCoord2f(0.0f, 1.0f);	glVertex3f(x, y - height, z);          //
+	   glTexCoord2f(1.0f, 0.0f);	glVertex3f(x + length, y, z);          //
 	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, texture[8]);
 	//Хвост
 	glBegin(GL_TRIANGLES);                      // Рисуем переднею.
-		glVertex3f(x + length, y, z);        //
-		glVertex3f(x + length + tail, y + tail, z + tailHeight);	//
-		glVertex3f(x + length + tail, y - tail, z + tailHeight);           //
+	  glTexCoord2f(0.0f, 0.0f);	glVertex3f(x + length, y, z);        //
+	  glTexCoord2f(0.0f, 1.0f);	glVertex3f(x + length + tail, y + tail, z + tailHeight);	//
+	  glTexCoord2f(1.0f, 0.0f);	glVertex3f(x + length + tail, y - tail, z + tailHeight);           //
 	glEnd();
 
+	glBindTexture(GL_TEXTURE_2D, texture[9]);
 	glBegin(GL_TRIANGLES);                      // Рисуем заднею.
-		glVertex3f(x + length, y, z);        //
-		glVertex3f(x + length + tail, y + tail, z - tailHeight);	//
-		glVertex3f(x + length + tail, y - tail, z - tailHeight);           //
+	  glTexCoord2f(0.0f, 0.0f);	glVertex3f(x + length, y, z);        //
+	  glTexCoord2f(0.0f, 1.0f);	glVertex3f(x + length + tail, y + tail, z - tailHeight);	//
+	  glTexCoord2f(1.0f, 0.0f);	glVertex3f(x + length + tail, y - tail, z - tailHeight);           //
 	glEnd();
 
 }
 
-void DrawAquarium()
+void DrawAquarium(	float R = 5)
 {
-	glColor4f(0.0f, 0.0f,1.0f, 0.2);
-	GLUquadricObj* m_qObj;
-	m_qObj = gluNewQuadric();
-	float R = 2;
-
-	gluSphere(m_qObj, R, 500, 500);
+  //	glBindTexture(GL_TEXTURE_2D, texture[10]);
+	 glColor4f(0.0f, 0.0f, 1.0f, 0.2);
+	GLUquadricObj* glass;
+	glass = gluNewQuadric();
+ //	gluQuadricTexture(glass, GL_TRUE);
+  //	gluQuadricDrawStyle(glass, GLU_FILL);
+	gluSphere(glass, R, 500, 500);
+	gluDeleteQuadric(glass);
 }
-
+float ar[4][3] = {{0, 0, 0}, {0, 2, 0}, {0, 1, 0}, {0, -2, 0}};
+int N = 2;
 void TForm1::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	DrawFish(0,0,0);
+	for (int i = 0; i < 4; i++) {
+        
+
+	glPushMatrix();
+		glRotatef(fishAngle[i], 0, 1, 0);
+	glPushMatrix();
+		glTranslatef(fishTrans[i],0,0);
+		glRotatef(90, 0, 1, 0);
+		glTranslatef(0,0,sin(fishAlfa2)/3);
+		DrawFish(ar[i][0], ar[i][1], ar[i][2]);
+	glPopMatrix();
+	glPopMatrix();
+	}
+
 	DrawAquarium();
 	SwapBuffers(hDC);
 }
@@ -266,6 +295,48 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
         default:
             break;
    }
+}
+
+GLvoid TForm1::LoadGLTextures()
+{
+	AUX_RGBImageRec *text[11]; //Создание указателя на нужную текстуру
+	text[0] = auxDIBImageLoad("1.bmp"); //Путь к текстуре
+	text[1] = auxDIBImageLoad("2.bmp"); //Путь к текстуре
+	text[2] = auxDIBImageLoad("3.bmp"); //Путь к текстуре
+	text[3] = auxDIBImageLoad("4.bmp"); //Путь к текстуре
+	text[4] = auxDIBImageLoad("5.bmp"); //Путь к текстуре
+	text[5] = auxDIBImageLoad("6.bmp"); //Путь к текстуре
+	text[6] = auxDIBImageLoad("7.bmp"); //Путь к текстуре
+	text[7] = auxDIBImageLoad("8.bmp"); //Путь к текстуре
+	text[8] = auxDIBImageLoad("9.bmp"); //Путь к текстуре
+	text[9] = auxDIBImageLoad("10.bmp"); //Путь к текстуре
+	glGenTextures(10, &texture[0]); //Кол-во текстур
+	//Указание для OpenGL, что первая текстура будет храниться в первом элементе массива. Если нужно импортировать несколько текстур, достаточно менять только первый аргумент, дублировать функцию не надо
+	for (int i = 0; i < 10 ; i++) {
+		glBindTexture(GL_TEXTURE_2D, texture[i]);
+	//Указание для OpenGL, что конкретная текстура будет двумерной
+	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	//Указание, какой тип фильтрации использовать в случаях, когда изображение на экране, 
+	//соответственно, больше или меньше, чем данная текстура (рекомендуется GL_LINEAR, но для медленных компьютеров можно попробовать GL_NEAREST)
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, text[i]->sizeX, text[i]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, text[i]->data);
+		//Создание фактической текстуры
+	}
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Timer1Timer(TObject *Sender)
+{
+	for (int i=0; i < 4; i++) {
+			fishAngle[i] -= 0.6;
+			if (fishAngle[i]>360-fishAngle[i]) {
+				fishAngle[i]=0;
+			}
+		}
+	fishAlfa2 -= 0.07;
+	Draw();	
 }
 //---------------------------------------------------------------------------
 

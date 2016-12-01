@@ -1,2 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject/>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2016/12/01 19:29:47.680,=E:\work\graphics\Camera.cpp</Transaction>
+    <Transaction>2016/12/01 19:32:07.494,E:\work\graphics\Project1.res=</Transaction>
+  </Transactions>
+</BorlandProject>

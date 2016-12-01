@@ -19,4 +19,10 @@ object Form1: TForm1
   OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
+  object Timer1: TTimer
+    Interval = 10
+    OnTimer = Timer1Timer
+    Left = 352
+    Top = 160
+  end
 end
