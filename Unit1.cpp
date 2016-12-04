@@ -8,11 +8,14 @@
 #pragma resource "*.dfm"
 TForm1 *Form1;
 Camera cam(10, 45, 45);
-float fishAlfa = 0;
-float fishAlfa2 = 0;
-float fishBeta = 0;
-float fishAngle[4]={0,30,-30,60};
-float fishTrans[4]={3,2.25,2.8,3.1};
+float bubblePos = 0;
+
+const int fishSize = 5;
+float fishAlfa[fishSize] = {0.17, 0.21, 0, 0.13};
+float fishAngle[fishSize]={0,30,-30,60, -60};
+float fishTrans[fishSize]={3, 2.25, 2.8, 3.7, 2.2};
+float ar[fishSize][3] = {{0, 0, 0}, {0, 2, 0}, {0, 1, 0}, {0, -2, 0},  {-1, -2, 1}};
+float R = 5;
 GLuint  texture[11];  // Массив для хранения текстур
 BOOL TForm1::bSetupPixelFormat(HDC hDC)
 
@@ -192,34 +195,76 @@ void DrawFish(float x, float y, float z)
 
 }
 
-void DrawAquarium(	float R = 5)
+void DrawAquarium()
 {
-  //	glBindTexture(GL_TEXTURE_2D, texture[10]);
-	 glColor4f(0.0f, 0.0f, 1.0f, 0.2);
+
+  float r = R / 20;//Радиус камней
+  float bubbleR = r;
+  //	Рисуем камни в аквариуме
+  glPushMatrix();
+  glColor4f(0.6, 0.4, 0.2, 1.0);
+  glTranslatef(0, -R + r , 0);
+
 	GLUquadricObj* glass;
 	glass = gluNewQuadric();
- //	gluQuadricTexture(glass, GL_TRUE);
-  //	gluQuadricDrawStyle(glass, GLU_FILL);
+	gluSphere(glass, r, 500, 500);
+	gluDeleteQuadric(glass);
+   glPopMatrix();
+
+   glPushMatrix();
+	glTranslatef(2 * r, -R + 2 * r , 0);
+	glass = gluNewQuadric();
+	gluSphere(glass, r, 500, 500);
+	gluDeleteQuadric(glass);
+   glPopMatrix();
+
+   glPushMatrix();
+	glTranslatef(0, -R + 2 * r , 2 * r);
+	glass = gluNewQuadric();
+	gluSphere(glass, r, 500, 500);
+	gluDeleteQuadric(glass);
+   glPopMatrix();
+
+   glPushMatrix();
+	glTranslatef(2 * r, -R + 2 * r , 2 * r);
+	glass = gluNewQuadric();
+	gluSphere(glass, r, 500, 500);
+	gluDeleteQuadric(glass);
+   glPopMatrix();
+   //рисуем воздушный пузырь
+
+	glColor4f(0.50f, 0.7f, 1.0f, 1.0);
+	glass = gluNewQuadric();
+	glPushMatrix();
+	glTranslatef(2 * r, -R + 2 * r + bubblePos, 2 * r);
+	gluSphere(glass, bubbleR, 500, 500);
+	gluDeleteQuadric(glass);
+	glPopMatrix();
+   //Рисуем аквариум
+	 glColor4f(0.0f, 0.0f, 1.0f, 0.2);
+	glass = gluNewQuadric();
 	gluSphere(glass, R, 500, 500);
 	gluDeleteQuadric(glass);
+
+
 }
-float ar[4][3] = {{0, 0, 0}, {0, 2, 0}, {0, 1, 0}, {0, -2, 0}};
-int N = 2;
+
 void TForm1::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	for (int i = 0; i < 4; i++) {
-        
-
-	glPushMatrix();
+	for (int i = 0; i < fishSize;i++) {
+		glPushMatrix();
 		glRotatef(fishAngle[i], 0, 1, 0);
-	glPushMatrix();
+		glPushMatrix();
 		glTranslatef(fishTrans[i],0,0);
 		glRotatef(90, 0, 1, 0);
-		glTranslatef(0,0,sin(fishAlfa2)/3);
+		if(i % 2 == 0)
+			glTranslatef(0,0,cos(fishAlfa[i]) / 3);
+		else
+			glTranslatef(0,0,sin(fishAlfa[i]) / 2);
 		DrawFish(ar[i][0], ar[i][1], ar[i][2]);
-	glPopMatrix();
-	glPopMatrix();
+		glPopMatrix();
+		glPopMatrix();
 	}
 
 	DrawAquarium();
@@ -329,13 +374,19 @@ GLvoid TForm1::LoadGLTextures()
 
 void __fastcall TForm1::Timer1Timer(TObject *Sender)
 {
-	for (int i=0; i < 4; i++) {
+	for (int i=0; i < fishSize; i++) {
 			fishAngle[i] -= 0.6;
 			if (fishAngle[i]>360-fishAngle[i]) {
 				fishAngle[i]=0;
 			}
+			fishAlfa[i] -= 0.07;
 		}
-	fishAlfa2 -= 0.07;
+
+
+	if(bubblePos > 1.8 * R )
+		bubblePos = 0.0;
+	else
+		bubblePos += 0.1;
 	Draw();	
 }
 //---------------------------------------------------------------------------
