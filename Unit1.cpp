@@ -241,7 +241,8 @@ void DrawAquarium()
 	gluDeleteQuadric(glass);
 	glPopMatrix();
    //Рисуем аквариум
-	 glColor4f(0.0f, 0.0f, 1.0f, 0.2);
+   double teta = 0.2;
+	 glColor4f(0.0f, 0.0f, 1.0f, teta);
 	glass = gluNewQuadric();
 	gluSphere(glass, R, 500, 500);
 	gluDeleteQuadric(glass);

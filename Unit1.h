@@ -365,6 +365,12 @@
 
 #include <Vcl.ExtCtrls.hpp>#include <System.Classes.hpp>
 
+#include <Vcl.ExtCtrls.hpp>#include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#include <System.Classes.hpp>
+
 #include <Vcl.ExtCtrls.hpp>#include <Classes.hpp>
 
 #include <ExtCtrls.hpp>#include <Classes.hpp>
