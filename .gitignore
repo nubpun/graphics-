@@ -1,3 +1,7 @@
 Debug_Build/
 __history/
 Thumbs.db
+Project1.cbproj
+Project1.cbproj.local
+*.dfm
+Project1.stat

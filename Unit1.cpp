@@ -7,7 +7,7 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm1 *Form1;
-Camera cam(10, 45, 45);
+Camera cam(13, 45, 45);
 float bubblePos = 0;
 
 const int fishSize = 5;
@@ -15,7 +15,7 @@ float fishAlfa[fishSize] = {0.17, 0.21, 0, 0.13};
 float fishAngle[fishSize]={0,30,-30,60, -60};
 float fishTrans[fishSize]={3, 2.25, 2.8, 3.7, 2.2};
 float ar[fishSize][3] = {{0, 0, 0}, {0, 2, 0}, {0, 1, 0}, {0, -2, 0},  {-1, -2, 1}};
-float R = 5;
+float R = 6;
 GLuint  texture[11];  // Массив для хранения текстур
 BOOL TForm1::bSetupPixelFormat(HDC hDC)
 
@@ -389,6 +389,19 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 	else
 		bubblePos += 0.1;
 	Draw();	
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::N2Click(TObject *Sender)
+{
+      Form2->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::N1Click(TObject *Sender)
+{
+	Form3->ShowModal();
 }
 //---------------------------------------------------------------------------
 
