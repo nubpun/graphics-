@@ -18,6 +18,57 @@
 #include <Vcl.Menus.hpp>include <System.Classes.hpp>
 
 #include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
 #include <Vcl.Menus.hpp>include <Vcl.Menus.hpp>
 #include <ExtCtrls.hpp>//---------------------------------------------------------------------------
 #include <Classes.hpp>
@@ -34,7 +85,6 @@
 #include <GL/glaux.h>
 #include "Unit2.h"
 #include "Unit3.h"
-#include "Camera.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {

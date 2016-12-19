@@ -7,7 +7,6 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm1 *Form1;
-Camera cam(13, 45, 45);
 float bubblePos = 0;
 
 const int fishSize = 5;
@@ -15,8 +14,75 @@ float fishAlfa[fishSize] = {0.17, 0.21, 0, 0.13};
 float fishAngle[fishSize]={0,30,-30,60, -60};
 float fishTrans[fishSize]={3, 2.25, 2.8, 3.7, 2.2};
 float ar[fishSize][3] = {{0, 0, 0}, {0, 2, 0}, {0, 1, 0}, {0, -2, 0},  {-1, -2, 1}};
-float R = 6;
+float R = 7;
 GLuint  texture[11];  // Массив для хранения текстур
+struct point {
+       double x, y, z;
+       point (double xx = 0, double yy = 0, double zz = 0):x(xx), y(yy), z(zz){}
+       void norm(double R = 1){x/=R; y/=R; z/=R;}
+} ;
+point eye;
+	  point n;
+	  float alpha, beta; // Углы поворота камеры
+	  float RCam = 6;
+	  double DANGLE = 7;
+	const float PI =3.141592653;
+void Camera(double Rad, double phi, double theta){
+	RCam = Rad;
+	alpha = theta;
+	beta = phi;
+	eye = point(RCam*sin(alpha / 180.*M_PI)*sin(beta / 180.*M_PI),
+		RCam*cos(alpha / 180.*M_PI),
+		RCam*sin(alpha / 180.*M_PI)*cos(beta / 180.*M_PI));
+	if (sin(alpha / 180.*M_PI) >= 0) {
+		n = point(0, 1, 0);
+	}
+	else{
+		n = point(0, -1, 0);
+	}
+}
+point getEye() {return eye;}
+point getNorm() {return n;}
+double getR(){return RCam;}
+void rotate(double vert, double horiz){
+	alpha += vert*DANGLE;
+	beta += horiz*DANGLE;
+	if (alpha > 360.0) {
+		alpha - 360.;
+	}
+	if (beta >= 360.0) {
+		beta -= 360.;
+	}
+	eye = point(RCam*sin(alpha / 180.*M_PI)*sin(beta / 180.*M_PI),
+		RCam*cos(alpha / 180.*M_PI),
+		RCam*sin(alpha / 180.*M_PI)*cos(beta / 180.*M_PI));
+	if (sin(alpha / 180.*M_PI) >= 0) {
+		n = point(0, 1, 0);
+	}
+	else{
+		n = point(0, -1, 0);
+	}
+}
+void zoom(double val){
+	RCam += val;
+	if (RCam < 0.5) {
+		RCam = 0.5;
+	}
+	if (RCam > 70) {
+		RCam = 70;
+	}
+	eye = point(RCam*sin(alpha / 180.*M_PI)*sin(beta / 180.*M_PI),
+		RCam*cos(alpha / 180.*M_PI),
+		RCam*sin(alpha / 180.*M_PI)*cos(beta / 180.*M_PI));
+	if (sin(alpha / 180.*M_PI) >= 0) {
+		n = point(0, 1, 0);
+	}
+	else{
+		n = point(0, -1, 0);
+	}
+}
+
+
 BOOL TForm1::bSetupPixelFormat(HDC hDC)
 
 {
@@ -93,6 +159,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 light_on();
 glEnable(GL_TEXTURE_2D);    // Разрешение наложение текстуры
 LoadGLTextures();           // Вызов функции импорта текстур
+Camera(13, 45, 45);
 }
 //---------------------------------------------------------------------------
 
@@ -290,8 +357,8 @@ void TForm1::moveCamera(){
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(70.0, dx/dy, 0.1f, 200.f);
-  point eye = cam.getEye();
-  point sky = cam.getNorm();
+  point eye = getEye();
+  point sky = getNorm();
   gluLookAt(eye.x, eye.y, eye.z, 0, 0, 0, sky.x, sky.y, sky.z);
   glMatrixMode(GL_MODELVIEW);
 }
@@ -301,45 +368,45 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
 {
 	switch(Key){
 		case(VK_RIGHT):{
-			cam.rotate(0, -1);
-            moveCamera();
-            Draw();
+			rotate(0, -1);
+			moveCamera();
+			Draw();
 			break;
 		}
 		case(VK_LEFT):{
-            cam.rotate(0, 1);
-            moveCamera();
-            Draw();
+			rotate(0, 1);
+			moveCamera();
+			Draw();
 			break;
 		}
 		case(VK_DOWN):{
-            cam.rotate(1, 0);
-            moveCamera();
-            Draw();
+			rotate(1, 0);
+			moveCamera();
+			Draw();
 			break;
 		}
 		case(VK_UP):{
-            cam.rotate(-1, 0);
-            moveCamera();
-            Draw();
+			rotate(-1, 0);
+			moveCamera();
+			Draw();
 			break;
 		}
 		case(VK_ADD):
-        case(VK_OEM_PLUS):{
-			cam.zoom(-1);
-            moveCamera();
-            Draw();
-            break;
-		}
-        case(VK_SUBTRACT ):
-        case(VK_OEM_MINUS):{
-			cam.zoom(1);
-            moveCamera();
-            Draw();
+		case(VK_OEM_PLUS):{
+			zoom(-1);
+			moveCamera();
+			Draw();
 			break;
 		}
-        default:
-            break;
+		case(VK_SUBTRACT ):
+		case(VK_OEM_MINUS):{
+			zoom(1);
+			moveCamera();
+			Draw();
+			break;
+		}
+		default:
+			break;
    }
 }
 
