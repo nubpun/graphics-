@@ -69,8 +69,44 @@
 #include <Vcl.Menus.hpp>include <System.Classes.hpp>
 
 #include <Vcl.ExtCtrls.hpp>#
-#include <Vcl.Menus.hpp>include <Vcl.Menus.hpp>
-#include <ExtCtrls.hpp>//---------------------------------------------------------------------------
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <System.Classes.hpp>
+
+#include <Vcl.ExtCtrls.hpp>
+
+#include <Vcl.Menus.hpp>#include <Vcl.ExtCtrls.hpp>
+
+#include <Vcl.Menus.hpp>#include <Vcl.ExtCtrls.hpp>#
+#include <Vcl.Menus.hpp>include <ExtCtrls.hpp>//---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
@@ -93,6 +129,7 @@ __published:	// IDE-managed Components
 	TMainMenu *MainMenu1;
 	TMenuItem *N1;
 	TMenuItem *N2;
+	TMenuItem *N3;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -101,6 +138,7 @@ __published:	// IDE-managed Components
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall N1Click(TObject *Sender);
+	void __fastcall N3Click(TObject *Sender);
 
 private:	// User declarations
 	HGLRC ghRC;  // указатель на контекст воспроизведения (Rendering Context)

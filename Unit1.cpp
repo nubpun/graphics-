@@ -11,21 +11,21 @@ float bubblePos = 0;
 
 const int fishSize = 5;
 float fishAlfa[fishSize] = {0.17, 0.21, 0, 0.13};
-float fishAngle[fishSize]={0,30,-30,60, -60};
+float fishAngle[fishSize]={0,30,-30,60, 45};
 float fishTrans[fishSize]={3, 2.25, 2.8, 3.7, 2.2};
-float ar[fishSize][3] = {{0, 0, 0}, {0, 2, 0}, {0, 1, 0}, {0, -2, 0},  {-1, -2, 1}};
-float R = 7;
+float ar[fishSize][3] = {{0, 0, 0},  {0, 1, 0},{0, 2, 0}, {0, -2, 0},  {-1, -2, 1}};
+float R = 6.5;
 GLuint  texture[11];  // Массив для хранения текстур
 struct point {
        double x, y, z;
        point (double xx = 0, double yy = 0, double zz = 0):x(xx), y(yy), z(zz){}
        void norm(double R = 1){x/=R; y/=R; z/=R;}
-} ;
-point eye;
-	  point n;
-	  float alpha, beta; // Углы поворота камеры
-	  float RCam = 6;
-	  double DANGLE = 7;
+};
+	point eye;
+	point n;
+	float alpha, beta; // Углы поворота камеры
+	float RCam = 6;
+	double DANGLE = 7;
 	const float PI =3.141592653;
 void Camera(double Rad, double phi, double theta){
 	RCam = Rad;
@@ -149,7 +149,7 @@ if (!bSetupPixelFormat(hDC)) //Устанавливаем формат пикселей
   return;
 ghRC = wglCreateContext(hDC); //Создаем контекст воспроизведения
 wglMakeCurrent(hDC, ghRC);  //Делаем его текущим
-glClearColor(1, 1, 1, 0.0); //Цвет экрана при очищении
+glClearColor(0.2, 1, 0.4, 0.0); //Цвет экрана при очищении
 glEnable(GL_COLOR_MATERIAL);  //Разрешаем задавать цвет объектам
 glEnable(GL_DEPTH_TEST);  //Тест глубины для объемности изображения
 
@@ -326,10 +326,10 @@ void TForm1::Draw()
 		glPushMatrix();
 		glTranslatef(fishTrans[i],0,0);
 		glRotatef(90, 0, 1, 0);
-		if(i % 2 == 0)
-			glTranslatef(0,0,cos(fishAlfa[i]) / 3);
-		else
-			glTranslatef(0,0,sin(fishAlfa[i]) / 2);
+		//if(i % 2 == 0)
+			glTranslatef(0,0,cos(fishAlfa[i]) / (1 + i % 5));
+		//else
+		//	glTranslatef(0,0,sin(fishAlfa[i]) / 2);
 		DrawFish(ar[i][0], ar[i][1], ar[i][2]);
 		glPopMatrix();
 		glPopMatrix();
@@ -469,6 +469,12 @@ void __fastcall TForm1::N2Click(TObject *Sender)
 void __fastcall TForm1::N1Click(TObject *Sender)
 {
 	Form3->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::N3Click(TObject *Sender)
+{
+   this->Close();
 }
 //---------------------------------------------------------------------------
 
